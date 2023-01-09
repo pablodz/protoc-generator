@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package protos.example.v1;
+
+option go_package = "github.com/pablodz/protoc-generator/pkg/v1/example;pkgexamplev1";
+
+message Example {
+  string field = 1;
+  string field2 = 2;
+  string field3 = 3;
+}

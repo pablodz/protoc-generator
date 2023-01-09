@@ -290,6 +290,7 @@ dist
 
 /.git
 setup/Dockerfile
+setup/*.env
 Dockerfile
 Makefile
 /.vscode
