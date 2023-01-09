@@ -20,25 +20,25 @@ while read -r key value; do
     key=${key%?}
     echo "Exporting $key=$value"
     export "$key=$value"
-done <<< "$keys"
+done <<<"$keys"
 
 echo "==========================================\n Environment variables exported \n=========================================="
 printenv | grep 'PROTOGENERATOR_'
 
 echo "==========================================\n Compiling the project... \n=========================================="
 # Compile the project
-list_languages=$(yq '.languages[]' ./setup/generator.yaml )
+list_languages=$(yq '.languages[]' ./setup/generator.yaml)
 
 echo "[WARNING] This script is executed inside docker, don't expect working on host"
 for language in $list_languages; do
 
     echo "Compiling for $language"
     # Extract the items array from environment and export it
-    output=$(yq '.job.'$language'.output' ./setup/generator.yaml )
+    output=$(yq '.job.'$language'.output' ./setup/generator.yaml)
     echo "$language.output: $output"
-    option=$(yq '.job.'$language'.options' ./setup/generator.yaml )
+    option=$(yq '.job.'$language'.options' ./setup/generator.yaml)
     echo "$language.options: $option"
-    verbose=$(yq '.job.'$language'.verbose' ./setup/generator.yaml )
+    verbose=$(yq '.job.'$language'.verbose' ./setup/generator.yaml)
     echo "$language.verbose: $verbose"
     # Create output dir recursively
     mkdir -p $output

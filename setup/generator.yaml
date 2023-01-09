@@ -11,8 +11,8 @@ environment: # Don't comment those lines or script will fail
 languages:
   # add your language here
   - golang
-  - python
   - nodejs
+  - python
 
 job:
   # add your job here
@@ -21,12 +21,12 @@ job:
     options: --go_out=plugins=grpc,paths=source_relative:./pkg
     verbose: true
 
-  python:
-    output: ./python
-    options: --grpc_out=./python --plugin=protoc-gen-grpc=/usr/local/bin/grpc_python_plugin
-    verbose: true
-
   nodejs:
     output: ./nodejs
     options: --js_out=import_style=commonjs,binary:./nodejs --grpc_out=./nodejs --plugin=protoc-gen-grpc=/usr/local/bin/grpc_node_plugin
+    verbose: true
+
+  python:
+    output: ./python
+    options: --python_out=./python --grpc_out=./python --plugin=protoc-gen-grpc=/usr/local/bin/grpc_python_plugin
     verbose: true

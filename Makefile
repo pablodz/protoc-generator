@@ -46,9 +46,10 @@ generate: clean
 		echo "export $$key=$$value";\
 	done
 	echo "========Copying generated files========"
-
 	yq eval '.job.*.output' ./setup/generator.yaml | cut -c 2- | xargs -I {} \
-		docker cp ${CONTAINER_BUILDER_NAME}:${PG_DOCKERFILE_WORKDIR}{}${BASE_PROTOS} .{}
+		mkdir -p .{}/v1/
+	yq eval '.job.*.output' ./setup/generator.yaml | cut -c 2- | xargs -I {} \
+		docker cp ${CONTAINER_BUILDER_NAME}:${PG_DOCKERFILE_WORKDIR}{}${BASE_PROTOS} .{}/
 	
 	echo "Updating go.mod if exists in HOST"
 	go mod tidy  2>&1 > /dev/null || true

@@ -34,7 +34,18 @@ make generate
 - [x] Recursive imports and proto generator
 - [x] Precompiled protoc-plugins to easy generate external libraries
 - [x] Precompiled docker image
-- [ ] 
+- [ ] Packages
+  - [ ] C# / .NET
+  - [ ] C++
+  - [ ] Dart
+  - [x] Go (Golang) (go.mod & go.sum)
+  - [ ] Java
+  - [ ] Kotlin
+  - [ ] Node (Javascript)
+  - [ ] Objective-C
+  - [ ] PHP
+  - [ ] Python
+  - [ ] Ruby
 - [ ] Exports support
   - [ ] C# / .NET
   - [ ] C++
