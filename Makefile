@@ -2,6 +2,8 @@ SHELL := /bin/bash
 CONTAINER_BUILDER_NAME=protoc-generator
 BASE_PROTOS=/protos/v1/
 
+-include ./setup/.env
+
 .PHONY: env
 env:
 	printenv
@@ -10,9 +12,18 @@ env:
 clean:
 	yq eval '.job.*.output' ./setup/generator.yaml | xargs -I {} rm -rf {}
 
+create-env:
+	echo "========Loading envs========"
+	rm -rf ./setup/.env 2>&1 > /dev/null || true
+	yq eval '.environment' ./setup/generator.yaml | \
+		while read -r key value; do \
+			key=$${key%\\}; \
+			key=$${key%?}; \
+			echo "export $$key=$$value" >> ./setup/.env; \
+		done;
 
 .PHONY: build
-generate: clean
+generate: create-env clean
 	echo "========Remove protoc generator image========"
 	docker rm ${CONTAINER_BUILDER_NAME} 2>&1 > /dev/null || true
 	
@@ -36,18 +47,16 @@ generate: clean
 	echo "========Running protoc generator image========"
 	docker run --name ${CONTAINER_BUILDER_NAME} ${CONTAINER_BUILDER_NAME}
 
-	echo "========Loading envs========"
-	yq eval '.environment' ./setup/generator.yaml | \
-		while read -r key value; do \
-			key=$${key%\\}; \
-			key=$${key%?}; \
-			echo "export $$key=$$value" >> ./setup/.env; \
-		done;
-		source ./setup/.env && echo "PG_DOCKERFILE_WORKDIR=$$PG_DOCKERFILE_WORKDIR";
 	echo "========Copying generated files========"
-	source ./setup/.env  && yq eval '.job.*.output' ./setup/generator.yaml | cut -c 2- | xargs -I {} \
+	source ./setup/.env  && \
+		yq eval '.job.*.output' ./setup/generator.yaml | \
+		cut -c 2- | \
+		xargs -I {} \
 		mkdir -p .{}/v1/
-	source ./setup/.env && yq eval '.job.*.output' ./setup/generator.yaml | cut -c 2- | xargs -I {} \
+	source ./setup/.env && \
+		yq eval '.job.*.output' ./setup/generator.yaml | \
+		cut -c 2- | \
+		xargs -I {} \
 		docker cp ${CONTAINER_BUILDER_NAME}:${PG_DOCKERFILE_WORKDIR}{}${BASE_PROTOS} .{}/
 	
 	echo "Updating go.mod if exists in HOST"
