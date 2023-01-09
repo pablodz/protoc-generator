@@ -1,0 +1,32 @@
+version: 3
+generatorversion: v0.1.0
+environment: # Don't comment those lines or script will fail
+  PG_PROTOC_VERSION: 3.3.0
+  PG_DOCKERFILE: ./setup/Dockerfile
+  PG_DOCKERFILE_CONTEXT: ./setup
+  PG_DOCKERFILE_WORKDIR: /generator
+  PG_GENERATORSCRIPT: ./setup/generator.sh
+  PG_NAME_CONTAINER_RUNTIME: protoc-compiler
+
+languages:
+  # add your language here
+  - golang
+  - python
+  - nodejs
+
+job:
+  # add your job here
+  golang:
+    output: ./pkg
+    options: --go_out=plugins=grpc,paths=source_relative:./pkg
+    verbose: true
+
+  python:
+    output: ./python
+    options: --grpc_out=./python --plugin=protoc-gen-grpc=/usr/local/bin/grpc_python_plugin
+    verbose: true
+
+  nodejs:
+    output: ./nodejs
+    options: --js_out=import_style=commonjs,binary:./nodejs --grpc_out=./nodejs --plugin=protoc-gen-grpc=/usr/local/bin/grpc_node_plugin
+    verbose: true

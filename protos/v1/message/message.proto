@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package protos.mesage.v1;
+
+option go_package = "github.com/pablodz/protoc-generator/pkg/v1/message;pkgmessagev1";
+
+message MyMessage {
+  string field = 1;
+  int32 another_field = 2;
+  bool yet_another_field = 3;
+}
