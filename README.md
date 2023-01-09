@@ -22,8 +22,8 @@ Proto libraries generators made easy.
  
 ```bash
 #recommended
+make loadenvs
 make generate verbose=true
-make generate
 ```
 
 

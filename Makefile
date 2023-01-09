@@ -12,7 +12,7 @@ env:
 clean:
 	yq eval '.job.*.output' ./setup/generator.yaml | xargs -I {} rm -rf {}
 
-create-env:
+loadenvs:
 	echo "========Loading envs========"
 	rm -rf ./setup/.env 2>&1 > /dev/null || true
 	yq eval '.environment' ./setup/generator.yaml | \
@@ -23,7 +23,7 @@ create-env:
 		done;
 
 .PHONY: build
-generate: create-env clean
+generate: loadenvs clean
 	echo "========Remove protoc generator image========"
 	docker rm ${CONTAINER_BUILDER_NAME} 2>&1 > /dev/null || true
 	
@@ -47,14 +47,12 @@ generate: create-env clean
 	echo "========Running protoc generator image========"
 	docker run --name ${CONTAINER_BUILDER_NAME} ${CONTAINER_BUILDER_NAME}
 
-	echo "========Copying generated files========"
-	source ./setup/.env  && \
-		yq eval '.job.*.output' ./setup/generator.yaml | \
+	echo "========Copying generated files========" 
+	yq eval '.job.*.output' ./setup/generator.yaml | \
 		cut -c 2- | \
 		xargs -I {} \
 		mkdir -p .{}/v1/
-	source ./setup/.env && \
-		yq eval '.job.*.output' ./setup/generator.yaml | \
+	yq eval '.job.*.output' ./setup/generator.yaml | \
 		cut -c 2- | \
 		xargs -I {} \
 		docker cp ${CONTAINER_BUILDER_NAME}:${PG_DOCKERFILE_WORKDIR}{}${BASE_PROTOS} .{}/
