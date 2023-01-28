@@ -44,7 +44,7 @@ for language in $list_languages; do
     # Create output dir recursively
     mkdir -p $output
     # Build with protoc
-    echo "Command: find . -name \*.proto -exec protoc $option $1 {} \;  \n";
+    printf "Command: find . -name \*.proto -exec protoc \$option \$1 {} \;  \n";
     find . -name \*.proto -exec protoc $option $1 {} \;
 
     if [ ! -z "$verbose" ]; then
