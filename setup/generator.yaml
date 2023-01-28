@@ -1,7 +1,7 @@
 version: 3
 generatorversion: v0.1.0
 environment: # Don't comment those lines or script will fail
-  PG_PROTOC_VERSION: 3.3.0
+  PG_PROTOC_VERSION: 21.12
   PG_DOCKERFILE: ./setup/Dockerfile
   PG_DOCKERFILE_CONTEXT: ./setup
   PG_DOCKERFILE_WORKDIR: /generator
@@ -10,9 +10,9 @@ environment: # Don't comment those lines or script will fail
 
 languages:
   # add your language here
-  - golang
+  # - golang
   - nodejs
-  - python
+  # - python
 
 job:
   # add your job here
