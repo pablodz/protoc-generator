@@ -13,7 +13,7 @@ clean:
 	yq eval '.job.*.output' ./setup/generator.yaml | xargs -I {} rm -rf {}
 
 loadenvs:
-	printf "========Loading envs========";
+	printf "\n========Loading envs========\n";
 	rm -rf ./setup/.env 2>&1 > /dev/null || true
 	yq eval '.environment' ./setup/generator.yaml | \
 		while read -r key value; do \
@@ -24,10 +24,10 @@ loadenvs:
 
 .PHONY: build
 generate: loadenvs clean
-	printf "========Remove protoc generator image========";
+	printf "\n========Remove protoc generator image========\n";
 	docker rm ${CONTAINER_BUILDER_NAME} 2>&1 > /dev/null || true
 	
-	printf "========Building protoc generator image========";
+	printf "\n========Building protoc generator image========\n";
 	build_args="" 
 	yq eval '.environment' ./setup/generator.yaml | \
 		while read -r key value; do \
@@ -44,10 +44,10 @@ generate: loadenvs clean
 
 	
 	
-	printf "========Running protoc generator image========";
+	printf "\n========Running protoc generator image========\n";
 	docker run --name ${CONTAINER_BUILDER_NAME} ${CONTAINER_BUILDER_NAME}
 
-	printf "========Copying generated files========";
+	printf "\n========Copying generated files========\n";
 	yq eval '.job.*.output' ./setup/generator.yaml | \
 		cut -c 2- | \
 		xargs -I {} \
@@ -57,5 +57,5 @@ generate: loadenvs clean
 		xargs -I {} \
 		docker cp ${CONTAINER_BUILDER_NAME}:${PG_DOCKERFILE_WORKDIR}{}${BASE_PROTOS} .{}/
 	
-	printf "Updating go.mod if exists in HOST";
+	printf "\nUpdating go.mod if exists in HOST\n";
 	go mod tidy  2>&1 > /dev/null || true

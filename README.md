@@ -41,10 +41,10 @@ make generate verbose=true
   - [x] Go (Golang) (go.mod & go.sum)
   - [ ] Java
   - [ ] Kotlin
-  - [ ] Node (Javascript)
+  - [x] Node (Javascript)
   - [ ] Objective-C
   - [ ] PHP
-  - [ ] Python
+  - [x] Python
   - [ ] Ruby
 - [ ] Exports support
   - [ ] C# / .NET
@@ -58,6 +58,27 @@ make generate verbose=true
   - [ ] PHP
   - [x] Python
   - [ ] Ruby
-
+- grpc_plugins
+  - [x] /grpc_plugins/grpc_cpp_plugin  
+  - [x] /grpc_plugins/grpc_csharp_plugin  
+  - [x] /grpc_plugins/grpc_node_plugin  
+  - [x] /grpc_plugins/grpc_objective_c_plugin  
+  - [x] /grpc_plugins/grpc_php_plugin  
+  - [x] /grpc_plugins/grpc_python_plugin  
+  - [x] /grpc_plugins/grpc_ruby_plugin  
+- google/protobuf
+  - [x] any.proto
+  - [x] api.proto
+  - [x] compiler
+    - [x] plugin.proto
+  - [x] descriptor.proto
+  - [x] duration.proto
+  - [x] empty.proto
+  - [x] field_mask.proto
+  - [x] source_context.proto
+  - [x] struct.proto
+  - [x] timestamp.proto
+  - [x] type.proto
+  - [x] wrappers.proto
 
 
