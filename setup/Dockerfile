@@ -3,7 +3,7 @@ ARG PG_DOCKERFILE_WORKDIR=${PG_DOCKERFILE_WORKDIR:-/generator}
 ARG PG_DOCKERFILE_CONTEXT=${PG_DOCKERFILE_CONTEXT:-./setup}
 ARG PG_GENERATORSCRIPT=${PG_GENERATORSCRIPT:-./setup/generator.sh}
 
-FROM --platform=linux/amd64 golang:1.19-buster
+FROM --platform=linux/amd64 golang:buster
 
 # STABLE VOZY
 ARG PG_PROTOC_VERSION
